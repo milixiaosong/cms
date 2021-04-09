@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>提示</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1.0" />
+    <link type="text/css" rel="stylesheet" href="{$smarty.const.TPL_URL}css/feedback.css">
+</head>
+<body>
+
+</body>
+
+
+<!--<div class="btn-container">-->
+    <!--<div type="button" id="success" value="成功"  onclick="show_success()">成功</div>-->
+    <!--<div type="button" id="error" value="错误" onclick="show_error()">错误</div>-->
+    <!--<div type="button" id="load" value="正在加载" onclick="show_load()">正在加载</div>-->
+    <!--<div type="button" id="tip" value="提示" onclick="show_note()">提示</div>-->
+<!--</div>-->
+
+
+
+
+<script src="{$smarty.const.TPL_URL}js/zepto.min.js"></script>
+<script type="text/javascript" src="{$smarty.const.TPL_URL}js/dialog.min.js"></script>
+
+<script type="text/javascript" language="javascript">
+    // =============================================
+    // @des:
+    // type:success成功 error错误 load加载中 tip提示信息
+    // msg:内容
+    // delay：显示时间
+    // callBack(function):回调函数
+    // @author:         shaotianyu
+    // @time:           2017-03-19
+    // =============================================
+    //
+    // 默认值
+    // width:180, 动画容器的宽度 *宽度默认180px
+    // height:150,  动画容器的高度 *宽度默认150px
+    // type:"success" 弹出动画类型 *默认为success
+    // msg:'操作成功', 弹出的信息  *默认 ‘操作成功’
+    // delay:0, 显示持续时间 *默认0
+    // bg:true, 是否显示背景遮罩层 *默认有浅黑色背景遮罩
+    // bgWhite:false, 背景是否为白色 *默认不是白色
+    // clickDomCancel:false, 点击遮罩层，弹出效果立即消失 *默认false
+    // callback:null, 执行完动画后的回调函数 *默认null
+    {if $item=='0'}
+    show_success('{$message}');
+    // go_history();
+    {else}
+    show_error('{$message}');
+    {/if}
+
+    {literal}
+    function show_success(mes){
+        popup({
+            type:'success',
+            msg:mes,
+            delay:3000,
+            callBack:go_history()
+            // callBack:function(){
+            //     console.log('callBack~~~');
+            // }});
+    });
+    };
+    function show_error(mes){
+        popup({type:'error',msg:mes,delay:3000,bg:true,clickDomCancel:true,callBack:go_history()});
+    };
+    function show_load(){
+        popup({type:'load',msg:"请等待",delay:1500,callBack:function(){
+                popup({type:"success",msg:"加载成功",delay:1000});
+            }});
+    };
+    function show_note(){
+        popup({type:'tip',msg:"提示信息",delay:null});
+    };
+
+
+    function go_history() {
+        var i = 2;
+        // var intervalid = setInterval("get_time()", 1000);
+        // function get_time(){
+        //     if(i==0){
+        //         history.go(-1);
+        //         clearInterval(intervalid);
+        //     }
+        //     i--;
+        // }
+        var intervalid = setInterval(
+            function(){
+                if(i==0){
+                    history.go(-1);
+                    clearInterval(intervalid);
+                }
+                i--;
+            }, 1000);
+
+    }
+    {/literal}
+</script>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加路由</title>
+</head>
+<form id="route_status">
+    <input type="text" id="route_name" name="route_name">
+    {if is_array($dir1)}
+        <select name="dir1" id="dir1" onchange="get_dir(1)">
+            {foreach $dir1 as $value}
+                <option value="{$value}">{$value}</option>
+            {/foreach}
+        </select>
+        <select name="dir2" id="dir2" onchange="get_dir(2)">
+
+        </select>
+    <select name="dir3" id="dir3" onchange="get_dir(3)">
+
+    </select>
+    {/if}
+</form>
+</html>
+<script>
+    function get_dir(num) {
+        // var dir=document.getElementById("dir"+num);
+        var form=document.getElementById("route_status");
+        var formData=new FormData(form);
+        var httpRequest = new XMLHttpRequest();
+        var dir_new="";
+        for(var i=1;i<num+1;i++){
+            dir_new=dir_new+formData.get("dir"+i)+"/";
+        }
+        httpRequest.open("GET","{$smarty.const.SITE_IP}/get_new_dir?dir="+"{$root_url}"+dir_new);
+        httpRequest.send();
+        // console.log("{$root_url}"+dir_new);
+        httpRequest.onreadystatechange = function () {
+            // console.log(1);
+            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                var result = httpRequest.responseText;
+                // document.write(result);
+                // console.log(2);
+                var o = eval("(" + result + ")");
+                for(var e=0;e<result.length;e++){
+                    var obj=document.getElementById('dir'+(num+1));
+                    obj.options.add(new Option(o[e],o[e])); //这个只能在IE中有效
+                }
+
+                // document.write(json['item']);
+                // document.write(o.item);
+                // window.location.href="/feedback?item=" + o.item;
+            }
+        }
+    }
+</script>
