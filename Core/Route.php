@@ -11,7 +11,7 @@ class Route{
     */
     public function start(){
         //检测用户是否登录,如果登录则执行已登录后的用户规则
-        if(Session::check()){
+        if(Session::session_check()){
             self::doing(self::url_change(self::get_url_logined()));
             return ;
         }
