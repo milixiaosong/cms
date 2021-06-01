@@ -4,7 +4,7 @@
         "database"=>array(
             "host"=>"localhost",
             "user"=>"root",
-            "password"=>"Xrq871323093.",
+            "password"=>"XXXXXX",
             "port"=>"3306",
             "database"=>"cms"
         )
